@@ -7,5 +7,6 @@ urlpatterns = [
     path('',views.index,name="index"),
     path('add-post/',views.addPost,name="addPost"),
     path('add-comment/',views.addComment,name="addComment"),
+    path('logout/',views.logout,name="logout"),
 
 ]

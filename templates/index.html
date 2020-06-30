@@ -1,5 +1,5 @@
 hello {{ user.email }}
-
+<a href="/logout/">logout</a>
 <form method="post" action="/add-post/">
     {% csrf_token %}
     <input type="text" name="header" placeholder="header" maxlength="50">

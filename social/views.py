@@ -8,6 +8,10 @@ from django.contrib.auth import logout as logMeOut
 from django.contrib.auth.models import User
 from .models import Post,Comment
 
+def logout(request):
+    logMeOut(request)
+    return redirect('login')
+
 
 def addPost(request):
     if not request.user.is_authenticated:
