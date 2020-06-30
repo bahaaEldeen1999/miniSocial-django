@@ -1,0 +1,23 @@
+hello {{ user.email }}
+
+
+{% for data in posts %}
+<h1>{{ data.0.header }}</h1>
+<h2>{{ data.0.user.email }}</h2>
+<h3>{{ data.0.genre }}</h3>
+<p>{{ data.0.text }}</p>
+<h4>comments</h4>
+<ul>
+    {% for comment in data.1 %}
+    <li>
+        <h5>{{comment.user}}</h5>
+        <p>{{ comment.text }}</p>
+    </li>
+    {% endfor %}
+    <form method="post" action="/post-comment">
+        <textarea name="comment" placeholder="add your comment" ></textarea>
+        <input type="text" hidden name="postId" value="{{data.0.id}}">
+        <input type="submit" value="add comment">
+    </form>
+</ul>
+{% endfor %}
