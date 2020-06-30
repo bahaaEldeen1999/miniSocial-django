@@ -1,7 +1,16 @@
-<form method="post" action="">
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<div class="container mr-auto mt-5">
+  <form method="post" action="">
     {% csrf_token %}
-    <input name="name" type="text" placeholder="user name">
-    <input name="email" type="email" placeholder="email">
-    <input name="password" type="password" placeholder="password">
-    <input type="submit" value="sign up" />
+    <label for="">Name:</label>
+    <input name="name" type="text" placeholder="user name" class="form-control mb-3">
+    <label for="">Email:</label>
+    <input name="email" type="email" placeholder="email" class="form-control mb-3">
+    <label for="">Password:</label>
+    <input name="password" type="password" placeholder="password" class="form-control mb-3">
+    <input type="submit" value="sign up"  class="btn btn-outline-dark"  />
   </form>
+<h5>already have an account? <a href="{{ request.scheme }}://{{ request.get_host }}/login">login</a></h5>
+</div>

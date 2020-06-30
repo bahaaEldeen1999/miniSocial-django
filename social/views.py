@@ -35,9 +35,9 @@ def addComment(request):
         post = post[0]
         comment = Comment.objects.create(post=post,user=request.user,text=text)
         return redirect('index')
-
-
     return redirect('index') 
+
+    
 def getAllPosts():
     posts = Post.objects.all()
     data = []

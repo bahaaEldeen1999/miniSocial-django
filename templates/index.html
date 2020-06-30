@@ -1,30 +1,84 @@
-hello {{ user.email }}
-<a href="/logout/">logout</a>
-<form method="post" action="/add-post/">
-    {% csrf_token %}
-    <input type="text" name="header" placeholder="header" maxlength="50">
-    <input type="text" name="genre" placeholder="genre" maxlength="20">
-    <textarea name="text" placeholder="post text" maxlength="500"></textarea>
-    <input type="submit" value="post">
-</form>
-{% for data in posts %}
-<h1>{{ data.0.header }}</h1>
-<h2>{{ data.0.user.email }}</h2>
-<h3>{{ data.0.genre }}</h3>
-<p>{{ data.0.text }}</p>
-<h4>comments</h4>
-<ul>
-    {% for comment in data.1 %}
-    <li>
-        <h5>{{comment.user}}</h5>
-        <p>{{ comment.text }}</p>
-    </li>
-    {% endfor %}
-    <form method="post" action="/add-comment/">
-        {% csrf_token %}
-        <textarea name="comment" placeholder="add your comment" ></textarea>
-        <input type="text" hidden name="postId" value="{{data.0.id}}">
-        <input type="submit" value="add comment">
-    </form>
-</ul>
-{% endfor %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<style>
+    body,html{
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">miniSocial</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link"href="/logout/">logout</a>
+          </li>
+        </ul>
+        
+    </div>
+  </nav>
+
+
+<div class="row">
+    <div class="col-md-4 text-center">
+       <h2>  {{user.email}} </h2>
+       <h3>  {{user.username}} </h3>
+    </div>
+    <div class="col-md-8">
+        <h2 class="text-center">Add post</h2>
+        <form method="post" action="/add-post/">
+            {% csrf_token %}
+            <label>header:</label>
+            <input type="text" name="header" placeholder="header" maxlength="50" class="form-control mb-3">
+            <label>post genre:</label>
+            <input type="text" name="genre" placeholder="genre" maxlength="20" class="form-control mb-3">
+            <label>post text</label>
+            <textarea name="text" placeholder="post text" maxlength="500" class="form-control mb-3"></textarea>
+            <input type="submit" value="post" class="btn btn-outline-dark">
+        </form>
+        <h2 class="text-center">Posts</h2>
+        {% for data in posts %}
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <p class="card-title">{{ data.0.header }}</p>
+                <p class="blockquote-footer">{{ data.0.user.email }}</p>
+                <p>{{ data.0.genre }}</p>
+                <p>{{ data.0.text }}</p>
+                <p>comments</p>
+                <ul class="list-group list-group-flush">
+                    {% for comment in data.1 %}
+                    <li  class="list-group-item">
+                        <p>{{comment.user.email}}</p>
+                        <p>{{ comment.text }}</p>
+                    </li>
+                    {% endfor %}
+                    <form method="post" action="/add-comment/">
+                        {% csrf_token %}
+                        <textarea name="comment" placeholder="add your comment" class="form-control mb-1 mt-1" ></textarea>
+                        <input type="text" hidden name="postId" value="{{data.0.id}}" >
+                        <input type="submit" value="add comment" class="btn btn-outline-dark mb-1 mt-1">
+                    </form>
+                </ul>
+            </div>
+            
+        </div>
+        
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
