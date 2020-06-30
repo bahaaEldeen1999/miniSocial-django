@@ -1,6 +1,12 @@
 hello {{ user.email }}
 
-
+<form method="post" action="/add-post/">
+    {% csrf_token %}
+    <input type="text" name="header" placeholder="header" maxlength="50">
+    <input type="text" name="genre" placeholder="genre" maxlength="20">
+    <textarea name="text" placeholder="post text" maxlength="500"></textarea>
+    <input type="submit" value="post">
+</form>
 {% for data in posts %}
 <h1>{{ data.0.header }}</h1>
 <h2>{{ data.0.user.email }}</h2>
@@ -14,7 +20,8 @@ hello {{ user.email }}
         <p>{{ comment.text }}</p>
     </li>
     {% endfor %}
-    <form method="post" action="/post-comment">
+    <form method="post" action="/add-comment/">
+        {% csrf_token %}
         <textarea name="comment" placeholder="add your comment" ></textarea>
         <input type="text" hidden name="postId" value="{{data.0.id}}">
         <input type="submit" value="add comment">

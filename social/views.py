@@ -9,8 +9,31 @@ from django.contrib.auth.models import User
 from .models import Post,Comment
 
 
+def addPost(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        text = request.POST["text"] 
+        genre = request.POST["genre"] 
+        header = request.POST["header"]
+        post = Post.objects.create(user=request.user,text=text,header=header,genre=genre)
+        return redirect('index')
+    return redirect('index')
 
 
+def addComment(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        text = request.POST["comment"] 
+        postId = request.POST["postId"]
+        post = Post.objects.filter(id=postId)
+        post = post[0]
+        comment = Comment.objects.create(post=post,user=request.user,text=text)
+        return redirect('index')
+
+
+    return redirect('index') 
 def getAllPosts():
     posts = Post.objects.all()
     data = []
@@ -62,3 +85,6 @@ def signup(request):
             return redirect('login')
         
     return render(request,'registration/signup.html')
+
+
+
