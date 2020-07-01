@@ -18,10 +18,10 @@
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="/">Home</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link"href="/comments/">comments</a>
           </li>
         <li class="nav-item">
@@ -39,17 +39,6 @@
        <h3>  {{user.username}} </h3>
     </div>
     <div class="col-md-8">
-        <h2 class="text-center">Add post</h2>
-        <form method="post" action="/add-post/">
-            {% csrf_token %}
-            <label>header:</label>
-            <input type="text" name="header" placeholder="header" maxlength="50" class="form-control mb-3">
-            <label>post genre:</label>
-            <input type="text" name="genre" placeholder="genre" maxlength="20" class="form-control mb-3">
-            <label>post text</label>
-            <textarea name="text" placeholder="post text" maxlength="500" class="form-control mb-3"></textarea>
-            <input type="submit" value="post" class="btn btn-outline-dark">
-        </form>
         <h2 class="text-center">Posts</h2>
         {% for data in posts %}
         <div class="card bg-light mb-3">
@@ -66,12 +55,7 @@
                         <p>{{ comment.text }}</p>
                     </li>
                     {% endfor %}
-                    <form method="post" action="/add-comment/">
-                        {% csrf_token %}
-                        <textarea name="comment" placeholder="add your comment" class="form-control mb-1 mt-1" ></textarea>
-                        <input type="text" hidden name="postId" value="{{data.0.id}}" >
-                        <input type="submit" value="add comment" class="btn btn-outline-dark mb-1 mt-1">
-                    </form>
+                    
                 </ul>
             </div>
             

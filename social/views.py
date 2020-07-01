@@ -37,7 +37,7 @@ def addComment(request):
         return redirect('index')
     return redirect('index') 
 
-    
+
 def getAllPosts():
     posts = Post.objects.all()
     data = []
@@ -48,7 +48,11 @@ def getAllPosts():
 
 def getUserPost(user):
     posts = Post.objects.filter(user=user)
-    return posts
+    data = []
+    for post in posts:
+        comments = getPostComments(post)
+        data.append((post,comments))
+    return data
 
 def getPostComments(post):
     comments = Comment.objects.filter(post=post)
@@ -60,6 +64,12 @@ def index(request):
         return redirect('login')
     posts = getAllPosts()
     return render(request,'index.html',{'user':request.user,'posts':posts})
+
+def comments(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    posts = getUserPost(request.user)
+    return render(request,'comments.html',{'user':request.user,'posts':posts})
 
 def login(request):
     if request.method == 'POST':
