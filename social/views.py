@@ -54,6 +54,10 @@ def getUserPost(user):
         data.append((post,comments))
     return data
 
+def getUserPostWithoutComments(user):
+    posts = Post.objects.filter(user=user)
+    return posts
+
 def getPostComments(post):
     comments = Comment.objects.filter(post=post)
     return comments
@@ -70,6 +74,58 @@ def comments(request):
         return redirect('login')
     posts = getUserPost(request.user)
     return render(request,'comments.html',{'user':request.user,'posts':posts})
+
+def posts(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    posts = getUserPostWithoutComments(request.user)
+    return render(request,'posts.html',{'user':request.user,'posts':posts})
+
+def updatePost(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        text = request.POST["text"] 
+        genre = request.POST["genre"] 
+        header = request.POST["header"]
+        postId = request.POST["postId"]
+        try:
+            post = Post.objects.get(user=request.user,id=postId)
+            post.text = text
+            post.header = header
+            post.genre = genre
+            post.save()
+            return redirect('posts')
+        finally:
+            return redirect('posts')
+    return redirect('posts')
+
+
+def updateUser(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        user = request.user
+        username = request.POST["username"] 
+        email = request.POST["email"] 
+        password = request.POST["password"]
+        try:
+            # check if there is duplicate mails
+            if user.username != email:
+                check = User.objects.get(username=email)
+                # send validation error
+                return redirect('posts')
+        finally:
+            try:
+                user.email = username
+                user.username = email
+                if password != "":
+                    print(password)
+                    user.set_password(password)
+                user.save()
+            except: 
+                return redirect('posts')
+    return redirect('posts')
 
 def login(request):
     if request.method == 'POST':

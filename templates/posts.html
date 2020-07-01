@@ -1,0 +1,163 @@
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<style>
+    body,html{
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">miniSocial</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link"href="/posts/">admin</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link"href="/comments/">comments</a>
+          </li>
+        <li class="nav-item">
+            <a class="nav-link"href="/logout/">logout</a>
+          </li>
+        </ul>
+        
+    </div>
+  </nav>
+
+
+<div class="row">
+    <div class="col-md-4 text-center mt-5">
+       <h2>  {{user.email}} </h2>
+       <h3>  {{user.username}} </h3>
+       <button id="editUser" class="btn btn-outline-dark">edit</button>
+    </div>
+    <div class="col-md-8">
+        <form class=" mb-3 mt-3  ">
+          
+            <input  placeholder="filter" maxlength="500" class="form-control mr-3" id="filterInput" style="width: 80%;">
+        </form>
+        <h2 class="text-center">Posts</h2>
+        {% for data in posts %}
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <i class="fa fa-2x fa-pencil-square-o "style="float:right;cursor:pointer" postId="{{data.id}}" index="{{forloop.counter0}}" ></i>
+                <p class="card-title">{{ data.header }}</p>
+                <p class="blockquote-footer">{{ data.user.email }}</p>
+                <p class="badge badge-dark">{{ data.genre }}</p>
+                <p class="blockquote">{{ data.text }}</p>
+            </div>           
+        </div> 
+        {% endfor %}
+    </div>
+</div>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title" id="exampleModalLabel">Edit post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/edit-post/">
+                {% csrf_token %}
+                <label>header:</label>
+                <input type="text" name="header" placeholder="header" maxlength="50" class="form-control mb-3" id="headerInput">
+                <label>post genre:</label>
+                <input type="text" name="genre" placeholder="genre" maxlength="20" class="form-control mb-3" id="genreInput">
+                <label>post text</label>
+                <textarea name="text" placeholder="post text" maxlength="500" class="form-control mb-3" id="textInput"></textarea>
+                <input type="text" name="postId" hidden id="postIdInput">
+                <input type="submit" value="update" class="btn btn-outline-dark">
+            </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title" id="exampleModalLabel1">Edit User info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/edit-user/">
+                {% csrf_token %}
+                <label>username:</label>
+                <input type="text" name="username" placeholder="username" class="form-control mb-3" value="{{user.email}}">
+                <label>email:</label>
+                <input type="email" name="email"  class="form-control mb-3" value="{{user.username}}" >
+                <label>new password</label>
+                <input type="password" name="password" placeholder="password" class="form-control mb-3">
+                <input type="submit" value="update" class="btn btn-outline-dark">
+            </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<script>
+    let posts = [
+    {% for data in posts %}
+    {
+        header: "{{data.header}}",
+        genre: "{{data.genre}}",
+        text: "{{data.text}}"
+    },
+    {% endfor %}
+    ];
+    
+    let editPosts = document.querySelectorAll('i');
+    $('#editPostModal').modal({show:false });
+    $('#editUserModal').modal({show:false });
+    for(let editPost of editPosts){
+        editPost.addEventListener('click',()=>{
+            let postId = editPost.attributes.postId.value;
+            let postIndex = Number(editPost.attributes.index.value);
+           document.querySelector('#headerInput').value = posts[postIndex].header;
+           document.querySelector('#genreInput').value = posts[postIndex].genre;
+           document.querySelector('#textInput').value = posts[postIndex].text;
+           document.querySelector('#postIdInput').value = postId;
+            $('#editPostModal').modal('show')
+
+        })
+    }
+
+    document.querySelector('#editUser').addEventListener('click',()=>{
+        $('#editUserModal').modal('show')
+    });
+
+    let postCards = document.querySelectorAll('.card');
+    document.querySelector('#filterInput').addEventListener('input',()=>{
+        let value = document.querySelector('#filterInput').value.trim();
+        if(!value) postCards.forEach(div=>{div.style.display = 'block'})
+        else{
+            postCards.forEach(div =>{
+                if(div.children[0].children[3].innerText != value) div.style.display = 'none';
+                else div.style.display = 'block';
+            })
+        }
+    })
+</script>

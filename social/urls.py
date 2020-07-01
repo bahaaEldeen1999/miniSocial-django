@@ -9,5 +9,8 @@ urlpatterns = [
     path('add-comment/',views.addComment,name="addComment"),
     path('logout/',views.logout,name="logout"),
     path('comments/',views.comments,name="comments"),
+    path('posts/',views.posts,name="posts"),
+    path('edit-post/',views.updatePost,name="updatePost"),
+    path('edit-user/',views.updateUser,name="updateUser"),
 
 ]

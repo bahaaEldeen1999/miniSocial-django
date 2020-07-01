@@ -1,6 +1,6 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 
 <style>
     body,html{
@@ -21,7 +21,10 @@
         <li class="nav-item ">
           <a class="nav-link" href="/">Home</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
+            <a class="nav-link"href="/posts/">admin</a>
+          </li>
+          <li class="nav-item active">
             <a class="nav-link"href="/comments/">comments</a>
           </li>
         <li class="nav-item">
@@ -39,14 +42,14 @@
        <h3>  {{user.username}} </h3>
     </div>
     <div class="col-md-8">
-        <h2 class="text-center">Posts</h2>
+        <h2 class="text-center">Comments</h2>
         {% for data in posts %}
         <div class="card bg-light mb-3">
             <div class="card-body">
                 <p class="card-title">{{ data.0.header }}</p>
                 <p class="blockquote-footer">{{ data.0.user.email }}</p>
-                <p>{{ data.0.genre }}</p>
-                <p>{{ data.0.text }}</p>
+                <p class="badge badge-dark">{{ data.0.genre }}</p>
+                <p class="blockquote">{{ data.0.text }}</p>
                 <p>comments</p>
                 <ul class="list-group list-group-flush">
                     {% for comment in data.1 %}
