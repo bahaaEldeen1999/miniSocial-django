@@ -109,22 +109,22 @@ def updateUser(request):
         username = request.POST["username"] 
         email = request.POST["email"] 
         password = request.POST["password"]
-        try:
-            # check if there is duplicate mails
-            if user.username != email:
+        
+        # check if there is duplicate mails
+        if user.username != email:
+            try:
                 check = User.objects.get(username=email)
                 # send validation error
                 return redirect('posts')
-        finally:
-            try:
-                user.email = username
-                user.username = email
-                if password != "":
-                    print(password)
-                    user.set_password(password)
-                user.save()
-            except: 
-                return redirect('posts')
+            except:
+                try:
+                    user.email = username
+                    user.username = email
+                    if password != "":
+                        user.set_password(password)
+                    user.save()
+                except: 
+                    return redirect('posts')
     return redirect('posts')
 
 def login(request):
