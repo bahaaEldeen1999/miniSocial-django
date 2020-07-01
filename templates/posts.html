@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 <style>
     body,html{
         margin: 0;
@@ -11,7 +12,7 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">miniSocial</a>
+    <a class="navbar-brand" href="/">miniSocial</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -71,7 +72,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form method="post" action="/edit-post/">
+            <form method="post" action="/edit-post/" id="editPostForm">
                 {% csrf_token %}
                 <label>header:</label>
                 <input type="text" name="header" placeholder="header" maxlength="50" class="form-control mb-3" id="headerInput">
@@ -98,14 +99,14 @@
           </button>
         </div>
         <div class="modal-body">
-            <form method="post" action="/edit-user/">
+            <form method="post" action="/edit-user/" id="editUserForm">
                 {% csrf_token %}
                 <label>username:</label>
                 <input type="text" name="username" placeholder="username" class="form-control mb-3" value="{{user.email}}">
                 <label>email:</label>
-                <input type="email" name="email"  class="form-control mb-3" value="{{user.username}}" >
+                <input type="email" name="email"  class="form-control mb-3" value="{{user.username}}" minlength="1" >
                 <label>new password</label>
-                <input type="password" name="password" placeholder="password" class="form-control mb-3">
+                <input type="password" name="password" placeholder="password" class="form-control mb-3" >
                 <input type="submit" value="update" class="btn btn-outline-dark">
             </form>
         </div>
@@ -117,8 +118,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/js/formValidation.min.js"></script>
 <script>
+    // add posts list to posts array in js
     let posts = [
     {% for data in posts %}
     {
@@ -128,10 +130,12 @@
     },
     {% endfor %}
     ];
-    
-    let editPosts = document.querySelectorAll('i');
+
+    // initialize modals bootstrap
     $('#editPostModal').modal({show:false });
     $('#editUserModal').modal({show:false });
+    // select all edit icons to add click event listner to them
+    let editPosts = document.querySelectorAll('i');
     for(let editPost of editPosts){
         editPost.addEventListener('click',()=>{
             let postId = editPost.attributes.postId.value;
@@ -144,11 +148,12 @@
 
         })
     }
-
+    // add click event to edit user button
     document.querySelector('#editUser').addEventListener('click',()=>{
         $('#editUserModal').modal('show')
     });
 
+    // add filtering based on existing matching
     let postCards = document.querySelectorAll('.card');
     document.querySelector('#filterInput').addEventListener('input',()=>{
         let value = document.querySelector('#filterInput').value.trim();
@@ -160,4 +165,6 @@
             })
         }
     })
+
+ 
 </script>

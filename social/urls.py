@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+# add the views to urlpatterns that match the views in socialapp
 urlpatterns = [
     path('login/',views.login,name="login"),
     path('signup/',views.signup,name="signup"),
