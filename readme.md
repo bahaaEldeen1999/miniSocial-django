@@ -1,5 +1,5 @@
 # miniSocial django web app
-## miniSocial is  amini social network built using django python framework as the backend with sqllite as the database engine and django default template system as front end
+## miniSocial is  a mini social network built using django python framework as the backend with sqllite as the database engine and django default template system as front end
 
 ### miniSocial features
 <ul>
